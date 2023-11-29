@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    Homepage
+{% endblock %}
+
+{% block main %}
+    <div class="text-center p-6 bg-white shadow rounded-lg max-w-md">
+        <h2 class="text-teal-500 text-xl mb-4">Welcome to Our App!</h2>
+        <p class="mb-4">Glad to see you here. Start by signing in or creating an account.</p>
+        <button id="signInBtn" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mx-2">Sign In</button>
+        <button id="signUpBtn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-2">Sign Up</button>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script async defer src ="{% static 'app/script.js' %}"></script>
+{% endblock script %}
