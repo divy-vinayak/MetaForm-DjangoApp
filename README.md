@@ -7,7 +7,7 @@ $ git clone https://github.com/divy-vinayak/atlan-task.git
 $ cd atlan-task
 
 ### checkout to the latest branch
-$ git checkout <branch-name>
+$ git checkout branch-name
 
 $ docker build -t metaform .
 
