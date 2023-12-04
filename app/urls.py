@@ -7,4 +7,6 @@ urlpatterns = [
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
     path('dashboard/', views.dashboard_view, name='user_dashboard'),
+    path('createForm/', views.create_form, name='creat_form'),
+    path('getForm/<int:form_id>/', views.get_form, name='get_form'),
 ]

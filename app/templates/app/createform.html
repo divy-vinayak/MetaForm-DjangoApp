@@ -1,0 +1,80 @@
+{% extends 'base2.html' %}
+
+{% block main %}
+    <div class="container mx-auto px-4 py-5">
+        <div class="max-w-2xl mx-auto bg-white p-8 rounded-lg border border-gray-300">
+            <form action="/createForm/" method="post" class="space-y-4">
+                {% csrf_token %}
+
+                <div id="question-container">
+                    <div class="question mb-4">
+                        <label for="question_text[]" class="question-label"></label>
+                        <input type="text" name="question_text[]" placeholder="Enter your question" class="w-full px-3 py-2 bg-white border shadow-sm border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
+
+                        <select name="question_type[]" class="w-full mt-3 px-3 py-2 bg-white border shadow-sm border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" onchange="checkQuestionType(this);">
+                            {% for type in question_types %}
+                                <option value="{{ type.id }}">{{ type.question_type }}</option>
+                            {% endfor %}
+                        </select>
+
+                        <div class="mcq-options hidden mt-3"></div>
+                    </div>
+                </div>
+
+                <button type="button" onclick="addQuestion();" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-md">Add Another Question</button>
+                <button type="submit" class="mt-4 px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-md">Submit Form</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        let questionCount = 1;
+        document.addEventListener('DOMContentLoaded', function() {
+            const temp = document.querySelectorAll('.question-label');
+            temp[temp.length-1].innerHTML = "Q." + questionCount;
+            questionCount += 1;
+        });
+        
+        function checkQuestionType(select) {
+            const mcqOptionsContainer = select.parentElement.querySelector('.mcq-options');
+            if (select.value === 'MCQ') { // Replace 'MCQ' with the actual ID or name for MCQ type
+                mcqOptionsContainer.classList.remove('hidden');
+                // Add MCQ options input fields here
+            } else {
+                mcqOptionsContainer.classList.add('hidden');
+                // Clear MCQ options if not MCQ type
+            }
+        }
+
+        function addQuestion() {
+            const questionsContainer = document.querySelector('#question-container');
+            const newQuestion = `
+                <div class="question mb-4">
+                <label for="question_text[]" class="question-label">Q. ${questionCount}</label>
+                <input type="text" name="question_text[]" placeholder="Enter your question" class="w-full px-3 py-2 bg-white border shadow-sm border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
+
+                <select name="question_type[]" class="w-full mt-3 px-3 py-2 bg-white border shadow-sm border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" onchange="checkQuestionType(this);">
+                    
+                        <option value="1">descriptive</option>
+                    
+                        <option value="2">scq</option>
+                    
+                        <option value="3">mcq</option>
+                    
+                        <option value="4">agreement_level</option>
+                    
+                        <option value="5">rate5</option>
+                    
+                        <option value="6">rate10</option>
+                    
+                </select>
+
+                <div class="mcq-options hidden mt-3"></div>
+                </div>`;
+            questionsContainer.innerHTML = questionsContainer.innerHTML + newQuestion;
+            questionCount += 1;
+        }
+    </script>
+{% endblock script %}

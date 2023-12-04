@@ -5,12 +5,18 @@ from django.contrib.auth.models import User
 class Form(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
-    desciption = models.TextField()
+    description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self) -> str:
+        return self.title
+
 class QuestionType(models.Model):
     question_type = models.CharField(max_length=200)
+
+    def __str__(self) -> str:
+        return self.question_type
 
 class Question(models.Model):
     form = models.ForeignKey(Form, on_delete=models.CASCADE)
@@ -19,6 +25,9 @@ class Question(models.Model):
     order = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return self.question_text
 
 class Response(models.Model):
     form = models.ForeignKey(Form, on_delete=models.CASCADE)
@@ -30,3 +39,6 @@ class Answer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     answer_text = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return self.response

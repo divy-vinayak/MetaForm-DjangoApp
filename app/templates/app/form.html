@@ -1,0 +1,34 @@
+{% extends 'base2.html' %}
+
+{% block title %}{{ title }}{% endblock title %}
+
+{% block main %}
+    <div class="flex justify-between items-center mt-2 ml-2 mr-2">
+        <h1>Title: {{ title }}</h1>
+        <a href="/dashboard/">
+            <button class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Back
+            </button>
+        </a>
+    </div>
+
+    <div class="my-4 p-4 bg-white rounded-lg border border-gray-300">
+        {% for question in questions %}
+            <div class="question mb-3">
+                <p class="font-semibold questions">{{ question.question_text }}</p>
+                <p class="text-sm text-gray-600">Type: {{ question.question_type }}</p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+
+{% block script %}
+    <script>
+        let count = 1;
+        document.querySelectorAll('p.questions').forEach((item) => {
+            item.innerHTML = count + '. ' + item.innerHTML;
+            count += 1;
+        });        
+    </script>
+{% endblock script %}
