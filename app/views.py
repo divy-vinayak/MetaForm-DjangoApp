@@ -60,7 +60,28 @@ def dashboard_view(request):
 @login_required
 def create_form(request):
     if request.method == "POST":
-        print(request.POST)
+        user = request.user
+
+        # Extract submitted form information
+        title = request.POST.get('form_title')
+        description = request.POST.get('form_description')
+
+        # Create a new form for the user
+        new_form = Form(user=user, title=title, description=description)
+        new_form.save()
+
+        # Add questions to this form
+        question_texts = request.POST.getlist('question_text[]')
+        question_types = request.POST.getlist('question_type[]')
+
+        orderCount = 1
+        for text, type_id in zip(question_texts, question_types):
+            question_type = QuestionType.objects.get(id=type_id)
+            question = Question(form=new_form, question_text=text, question_type=question_type, order=orderCount)
+            question.save()
+            orderCount += 1
+        
+        return HttpResponseRedirect('/dashboard')
 
     question_types = QuestionType.objects.all()
     context = {
