@@ -4,12 +4,19 @@
 
 {% block main %}
     <div class="flex justify-between items-center mt-4 mx-4">
-        <h1 class="text-xl font-bold text-gray-700">Title: {{ title }}</h1>
-        <a href="/dashboard/">
-            <button class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                Back
-            </button>
-        </a>
+        <h1 class="text-xl font-bold text-gray-700">Form Title: {{ title }}</h1>
+        <div>
+            <a href="/getResponses/{{ form.id }}">
+                <button class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    View Responses
+                </button>
+            </a>
+            <a href="/dashboard/">
+                <button class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Back
+                </button>
+            </a>
+        </div>
     </div>
 
     <div class="my-4 mx-4 p-6 bg-white rounded-lg border border-gray-300 shadow-lg">

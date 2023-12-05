@@ -10,4 +10,6 @@ urlpatterns = [
     path('createForm/', views.create_form, name='creat_form'),
     path('getForm/<int:form_id>/', views.get_form, name='get_form'),
     path('collectResponse/<int:form_id>', views.collect_response, name='collect_response'),
+    path('getResponses/<int:form_id>', views.response_view, name="response_view"),
+    path('showUserResponse/<int:response_id>', views.user_response_view, name="user_response_view"),
 ]

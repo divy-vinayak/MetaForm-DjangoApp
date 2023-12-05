@@ -1,0 +1,25 @@
+{% extends "base2.html" %}
+
+{% block title %}
+    {{ response.form }}
+{% endblock title %}
+
+{% block main %}
+    <div class="flex justify-between items-center mt-4 mx-4">
+        <h1 class="text-xl font-bold text-gray-700">Submitted By: {{ response.submitter_info }}</h1>
+        <a href="/getResponses/{{ response.form.id }}">
+            <button class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Back
+            </button>
+        </a>
+    </div>
+
+    <div class="my-4 mx-4 p-6 bg-white rounded-lg border border-gray-300 shadow-lg">
+        {% for answer in answers %}
+            <div class="answer mb-4">
+                <p class="font-semibold text-lg text-gray-800 answers">{{ answer.question.order }}. {{ answer.question.question_text }}</p>
+                <p class="text-sm text-gray-600 mt-1">Ans: {{ answer.answer_text }}</p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock main %}
