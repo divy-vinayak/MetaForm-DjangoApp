@@ -86,16 +86,16 @@
         function copyToClipboard(element) {
             // Get the sibling input field of the clicked icon
             var copyText = element.previousElementSibling;
-        
-            // Select the text field
             copyText.select();
-            copyText.setSelectionRange(0, 99999); // For mobile devices
-        
-            // Copy the text inside the text field
-            document.execCommand("copy");
-        
-            // Alert the copied text
-            alert("Copied the link: " + copyText.value);
+            
+            navigator.clipboard.writeText(copyText.value)
+                .then(() => {
+                    alert("Copied link: " + copyText.value);
+                    console.log('Text copied on clipboard');
+                })
+                .catch(err => {
+                    console.error("Failed to copy text: ", err);
+                });
         }
     </script>
 {% endblock script %}

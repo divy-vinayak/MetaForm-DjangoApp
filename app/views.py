@@ -108,7 +108,7 @@ def get_form(request, form_id):
     # render the form with all of the questions in it
     context = {
         'title' : user_form.title,
-        # 'form': user_form,
+        'form': user_form,
         'questions': questions
     }
     return render(request, 'app/form.html', context)
@@ -138,3 +138,28 @@ def collect_response(request, form_id):
         'questions': questions
     }
     return render(request, 'app/collectresponse.html', context)
+
+def response_view(request, form_id):
+    # get the form corresponding to the form_id
+    form = get_object_or_404(Form, pk=form_id)
+
+    # get all of its responses
+    form_responses = Response.objects.filter(form=form)
+    context = {
+        'form': form,
+        'responses': form_responses
+    }
+    return render(request, 'app/responses.html', context)
+
+def user_response_view(request, response_id):
+    # get the response
+    response = get_object_or_404(Response, pk=response_id)
+
+    # get the answers 
+    user_submitted_answers = Answer.objects.filter(response=response)
+    # render
+    context = {
+        'response': response,
+        'answers': user_submitted_answers
+    }
+    return render(request, 'app/answers.html', context)
