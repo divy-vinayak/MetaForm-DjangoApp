@@ -2,8 +2,14 @@ from django.contrib import admin
 from app import models
 
 # Register your models here.
-
-admin.site.register(models.Answer)
+class AnswerAdmin(admin.ModelAdmin):
+    list_display = [
+        'response',
+        'question',
+        'answer_text',
+        'created_at'
+    ]
+admin.site.register(models.Answer, AnswerAdmin)
 
 class FormAdmin(admin.ModelAdmin):
     list_display = [
@@ -31,4 +37,11 @@ class QuestionTypeAdmin(admin.ModelAdmin):
         'question_type'
     ]
 admin.site.register(models.QuestionType, QuestionTypeAdmin)
-admin.site.register(models.Response)
+
+class ResponseAdmin(admin.ModelAdmin):
+    list_display = [
+        'form',
+        'submitter_info',
+        'submitted_at'
+    ]
+admin.site.register(models.Response, ResponseAdmin)

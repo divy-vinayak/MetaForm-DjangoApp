@@ -79,21 +79,10 @@
                 <input type="text" autofocus required name="question_text[]" placeholder="Enter your question" autocomplete="off" class="w-full px-3 py-2 bg-white border shadow-sm border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
 
                 <select name="question_type[]" required class="w-full mt-3 px-3 py-2 bg-white border shadow-sm border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" onchange="checkQuestionType(this);">
-
-                        <option value="" selected disabled>Select Question Type</option>
-
-                        <option value="1">Descriptive</option>
-                    
-                        <option value="2">Scq</option>
-                    
-                        <option value="3">Mcq</option>
-                    
-                        <option value="4">Agreement_level</option>
-                    
-                        <option value="5">Rate5</option>
-                    
-                        <option value="6">Rate10</option>
-                    
+                    <option value="" selected disabled>Select Question Type</option>
+                    {% for type in question_types %}
+                        <option value="{{ type.id }}">{{ type.question_type|capfirst }}</option>
+                    {% endfor %}
                 </select>
 
                 <div class="mcq-options hidden mt-3"></div>

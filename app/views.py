@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
 from app.forms import RegistrationForm, LoginForm
-from app.models import Form, Question, QuestionType
+from app.models import Form, Question, QuestionType, Response, Answer
 
 # Create your views here.
 def index(request):
@@ -104,6 +104,7 @@ def get_form(request, form_id):
     
     # get all questions in the form
     questions = Question.objects.filter(form=user_form).order_by('order')
+
     # render the form with all of the questions in it
     context = {
         'title' : user_form.title,
@@ -111,3 +112,29 @@ def get_form(request, form_id):
         'questions': questions
     }
     return render(request, 'app/form.html', context)
+
+def collect_response(request, form_id):
+    form = get_object_or_404(Form, pk=form_id)
+    questions = Question.objects.filter(form=form).order_by("order")
+    
+    if request.method == "POST":
+        # collect response
+        submitter_name = request.POST.get('user_name')
+        
+        # store response
+        new_response = Response(form=form, submitter_info=submitter_name)
+        new_response.save()
+
+        for question in questions:
+            answer_text = request.POST.get(f'response_{question.id}')
+            new_answer = Answer(response=new_response, question=question, answer_text=answer_text)
+            new_answer.save()
+
+        return HttpResponse(f'Response Submitted successfully.<a href="/collectResponse/{form_id}">Submit another response</a>')
+
+    # render a form with all question
+    context = {
+        'form': form,
+        'questions': questions
+    }
+    return render(request, 'app/collectresponse.html', context)

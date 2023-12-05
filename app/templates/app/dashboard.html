@@ -37,25 +37,32 @@
                     <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-50 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                         Updated At
                     </th>
+                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-50 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        Sharable link
+                    </th>
                 </tr>
             </thead>
             <tbody>
                 {% for form_data in user_forms %}
-                    <tr onclick="window.location='/getForm/{{ form_data.id }}';" style="cursor: pointer;">
-                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm item-number">
+                    <tr style="cursor: pointer;">
+                        <td onclick="window.location='/getForm/{{ form_data.id }}';" class="px-5 py-5 border-b border-gray-200 bg-white text-sm item-number">
                             {{ form_data.id }}
                         </td>
-                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <td onclick="window.location='/getForm/{{ form_data.id }}';" class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             {{ form_data.title }}
                         </td>
-                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <td onclick="window.location='/getForm/{{ form_data.id }}';" class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             {{ form_data.description }}
                         </td>
-                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <td onclick="window.location='/getForm/{{ form_data.id }}';" class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             {{ form_data.created_at }}
                         </td>
-                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <td onclick="window.location='/getForm/{{ form_data.id }}';" class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             {{ form_data.updated_at }}
+                        </td>
+                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                            <input type="text" class="link-to-copy" value="localhost:8000/collectResponse/{{ form_data.id }}" readonly hidden>
+                            <i class="fas fa-clipboard" onclick="copyToClipboard(this)"></i>
                         </td>
                     </tr>
                 {% endfor %}
@@ -66,12 +73,30 @@
 
 {% block script %}
     <script>
-        const items = document.querySelectorAll('td.item-number');
-        let i = 1;
-        items.forEach((item) => {
-            item.innerHTML = i;
-            i += 1;
+        document.addEventListener('DOMContentLoaded', function() {
+            const items = document.querySelectorAll('td.item-number');
+            let i = 1;
+            items.forEach((item) => {
+                item.innerHTML = i;
+                i += 1;
+            });
         });
+        
+
+        function copyToClipboard(element) {
+            // Get the sibling input field of the clicked icon
+            var copyText = element.previousElementSibling;
+        
+            // Select the text field
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); // For mobile devices
+        
+            // Copy the text inside the text field
+            document.execCommand("copy");
+        
+            // Alert the copied text
+            alert("Copied the link: " + copyText.value);
+        }
     </script>
 {% endblock script %}
 
